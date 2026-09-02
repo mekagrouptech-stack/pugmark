@@ -1,0 +1,152 @@
+%-------------------------
+% Resume in Latex
+% Author: Lovkush Rajbhar
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+% Commented out as it may not be available in all distributions
+% \input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Only enable if glyphtounicode is available
+% \pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-2pt}}}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-6pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-6pt}
+}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Lovkush Rajbhar} \\ \vspace{4pt}
+    \textbf{\Large \scshape Full Stack Developer} \\ \vspace{4pt}
+    \small \faPhone\ +91-8469103211 ~ 
+    \href{mailto:lovkushrajbhar2210@gmail.com}{\faEnvelope\ \underline{lovkushrajbhar2210@gmail.com}} ~ 
+    \href{https://www.linkedin.com/in/lovkush}{\faLinkedin\ \underline{linkedin.com/in/lovkush}}
+\end{center}
+
+%-----------SUMMARY-----------
+\section{Summary}
+Full Stack Developer with \textbf{2.5+ years of professional experience} building and maintaining \textbf{production-grade SaaS and web applications}. Strong expertise in \textbf{React, Next.js, Redux, Node.js, and Express.js}, with hands-on experience in database design, API integrations, and production support. Proven ability to own features end-to-end from development to delivery.
+
+%-----------SKILLS-----------
+\section{Technical Skills}
+\textbf{Frontend:} React.js, Next.js, JavaScript, TypeScript, Redux, HTML, CSS, SASS \\
+\textbf{Backend:} Node.js, Express.js, PHP, Laravel \\
+\textbf{APIs:} REST APIs, GraphQL (basic exposure), Authentication \& Authorization \\
+\textbf{Databases:} MySQL, MongoDB \\
+\textbf{Caching \& Search:} Redis (basic), ElasticSearch (exposure) \\
+\textbf{Storage:} AWS S3 \\
+\textbf{DevOps \& Tools:} Linux, Git, Docker, CI/CD (basic) \\
+\textbf{Practices:} Error Handling, Logging, Performance Optimization, Documentation
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+  {Full Stack Developer}{Nov 2024 -- Present}
+  {MEKA Group}{React.js, Next.js, Redux, Node.js, Express.js, MySQL, MongoDB}
+  \resumeItemListStart
+    \resumeItem{Developing scalable and responsive frontend applications using \textbf{React.js and Next.js}.}
+    \resumeItem{Implementing \textbf{Redux} for global state management across complex application workflows.}
+    \resumeItem{Building backend APIs using \textbf{Node.js and Express.js} with structured validation and error handling.}
+    \resumeItem{Designing and maintaining relational and NoSQL databases using \textbf{MySQL and MongoDB}.}
+    \resumeItem{Supporting production systems and resolving application-level issues.}
+  \resumeItemListEnd
+
+\resumeSubheading
+  {Full Stack Developer}{Apr 2023 -- Sep 2024}
+  {Shree Krishna Digital Marketing}{React, Next.js, Node.js, MySQL, MongoDB, Docker}
+  \resumeItemListStart
+    \resumeItem{Developed and maintained \textbf{8+ full-stack applications}, including SaaS and e-commerce platforms.}
+    \resumeItem{Built reusable frontend components using \textbf{React and Next.js} with optimized routing and SSR.}
+    \resumeItem{Designed secure backend services using \textbf{Node.js and Express.js} following REST standards.}
+    \resumeItem{Integrated third-party APIs including \textbf{payment gateways, WhatsApp OTP authentication, shipping, and Google Meet APIs}.}
+    \resumeItem{Optimized database queries and indexes, improving API response times by \textbf{~30\%}.}
+    \resumeItem{Managed builds and deployments using \textbf{Docker and Linux environments}.}
+  \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Key Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{\textbf{Chess Learning SaaS Platform} $|$ \emph{Next.js, Node.js, Google Meet API}}{SaaS / EdTech}
+\resumeItemListStart
+\resumeItem{Built a multi-tenant SaaS platform with Admin, Teacher, and Student roles.}
+\resumeItem{Automated virtual sessions, attendance, reporting, and document generation.}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{1Five E-commerce Platform} $|$ \emph{Node.js, React, PhonePe, Blue Dart API}}{Production System}
+\resumeItemListStart
+\resumeItem{Developed a full-scale e-commerce system with secure checkout and order lifecycle management.}
+\resumeItem{Integrated payment and logistics APIs with retry and failure handling.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Bachelor of Computer Applications}{2022}
+    {Veer Narmad South Gujarat University}{CGPA: 6.1 / 10}
+\resumeSubHeadingListEnd
+
+\end{document}

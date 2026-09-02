@@ -1,0 +1,95 @@
+# ---------------------------------------------------------------------------
+# pugmarkhr.com — upload this SAME file to BOTH locations:
+#   public_html/pugmarkhr.com/.htaccess
+#   public_html/pugmarkhr.com/api/.htaccess
+#
+# FIX (verified 20 Aug 2026): PUT / PATCH / DELETE were answered by Apache
+# with 403 (HTML, no app headers) on EVERY path — /api/api/users/1 and
+# /__probe alike — while GET and POST reached Node fine. A site-wide,
+# method-based rejection: OWASP CRS rule 911100 (method enforcement), enabled
+# by default on cPanel, which allows only GET, HEAD, POST and OPTIONS.
+#
+# ModSecurity runs BEFORE mod_rewrite, so no RewriteRule can work around it.
+# Removing the rule below is the actual fix.
+#
+# If this host forbids SecRuleRemoveById in .htaccess the site returns 500.
+# Then delete this block and switch ModSecurity off for the domain in
+# cPanel > Security > ModSecurity instead.
+# ---------------------------------------------------------------------------
+<IfModule mod_security2.c>
+  SecRuleRemoveById 911100
+  SecRuleRemoveById 911013
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Static asset delivery. The rewrite rules below hand any request matching a
+# real file straight to Apache, so these headers — not the Node app's — are
+# what returning visitors actually get for the frontend bundle.
+# ---------------------------------------------------------------------------
+
+# Compress text responses. The JS/CSS bundle is ~860kB raw and ~250kB gzipped;
+# without this every cold visit pays the full three-times-larger download.
+#
+# text/javascript is NOT redundant with application/javascript: Apache 2.4
+# ships .js as text/javascript (RFC 9239 made that the standard type, and
+# recent mime.types follow it). AddOutputFilterByType matches the response's
+# actual Content-Type, so a list without text/javascript silently compresses
+# nothing on such a host — the exact failure this block exists to prevent.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/rss+xml
+  AddOutputFilterByType DEFLATE font/ttf font/otf application/vnd.ms-fontobject
+</IfModule>
+
+# Brotli where the host has it — roughly 15-20% smaller than gzip on this
+# bundle for no extra work. Falls through to mod_deflate above when absent or
+# when the client does not advertise `br`.
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml
+  AddOutputFilterByType BROTLI_COMPRESS text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml application/rss+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  # /assets filenames carry a content hash, so a change to a file changes its
+  # URL. They can be cached for a year and never revalidated.
+  <FilesMatch "\.(js|css|woff2?|ttf|eot|otf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpe?g|gif|svg|ico|webp|avif)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  # index.html is the one unhashed file: caching it is what makes a deploy
+  # invisible to returning users, and points them at chunks the build deleted.
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+RewriteEngine On
+
+# Keep the Authorization header across the proxy hop (JWT would be lost).
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Forward all requests to the Node.js app on port 5051
+RewriteRule ^$ http://127.0.0.1:5051/ [P,L]
+
+# Write methods always go to Node, never to the filesystem — Apache answers
+# 403/405 itself for PUT/DELETE on a static path.
+RewriteCond %{REQUEST_METHOD} ^(PUT|PATCH|DELETE)$
+RewriteRule ^(.*)$ http://127.0.0.1:5051/$1 [P,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://127.0.0.1:5051/$1 [P,L]
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the "ea-php81" package as the default "PHP" programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
